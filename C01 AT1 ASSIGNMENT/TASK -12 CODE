@@ -1,0 +1,56 @@
+abstract class Vehicle {
+    private final String registrationNumber;
+
+    public Vehicle(String registrationNumber) {
+        this.registrationNumber = registrationNumber;
+    }
+
+    public String getRegistrationNumber() { return registrationNumber; }
+    public abstract double calculateFee(boolean between9AMAnd5PM);
+}
+
+class Car extends Vehicle {
+    public Car(String reg) { super(reg); }
+    @Override public double calculateFee(boolean daytime) { return 30; }
+}
+
+class EBike extends Vehicle {
+    public EBike(String reg) { super(reg); }
+    @Override public double calculateFee(boolean daytime) { return 15; }
+}
+
+class DeliveryVan extends Vehicle {
+    public DeliveryVan(String reg) { super(reg); }
+    @Override public double calculateFee(boolean daytime) {
+        double carRate = 30;
+        return daytime ? carRate * 2 : carRate;
+    }
+}
+
+interface Pass {
+    boolean isValid();
+    double discount();
+}
+
+class OneDayPass implements Pass {
+    private final boolean valid;
+
+    public OneDayPass(boolean valid) { this.valid = valid; }
+
+    @Override public boolean isValid() { return valid; }
+    @Override public double discount() { return valid ? 1.0 : 0.0; }
+}
+
+public class Task12 {
+    public static void main(String[] args) {
+        Vehicle ebike = new EBike("TN10E1111");
+        Vehicle van = new DeliveryVan("TN20V2222");
+        Pass visitorPass = new OneDayPass(true);
+
+        System.out.println("E-bike fee: Rs " + ebike.calculateFee(false));
+        System.out.println("Delivery van fee at 11 AM: Rs " + van.calculateFee(true));
+        System.out.println("Delivery van fee at 8 PM: Rs " + van.calculateFee(false));
+        System.out.println("One-day visitor pass valid: " + visitorPass.isValid());
+        System.out.println("One-day pass discount factor: " + visitorPass.discount());
+    }
+}
