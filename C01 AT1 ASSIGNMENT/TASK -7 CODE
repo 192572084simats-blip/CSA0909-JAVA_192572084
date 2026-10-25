@@ -1,0 +1,60 @@
+class Vehicle {
+    private final String registrationNumber;
+
+    public Vehicle(String registrationNumber) {
+        this.registrationNumber = registrationNumber;
+    }
+
+    public String getRegistrationNumber() { return registrationNumber; }
+
+    protected double ratePerHour() { return 0; }
+
+    public double calculateFee(int minutes) {
+        if (minutes < 0) throw new IllegalArgumentException("Minutes cannot be negative");
+        int hours = (minutes + 59) / 60;
+        return hours * ratePerHour();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof Vehicle)) return false;
+        Vehicle other = (Vehicle) obj;
+        return registrationNumber.equals(other.registrationNumber);
+    }
+
+    @Override
+    public int hashCode() { return registrationNumber.hashCode(); }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + "[registration="
+                + registrationNumber + "]";
+    }
+}
+
+class TwoWheeler extends Vehicle {
+    public TwoWheeler(String reg) { super(reg); }
+    @Override protected double ratePerHour() { return 10; }
+}
+
+class Car extends Vehicle {
+    public Car(String reg) { super(reg); }
+    @Override protected double ratePerHour() { return 30; }
+}
+
+public class Task07 {
+    public static void main(String[] args) {
+        Vehicle bike = new TwoWheeler("TN01A1");
+        Vehicle car = new Car("TN02B2");
+
+        System.out.println(bike);
+        System.out.println("Bike fee for 61 minutes: Rs " + bike.calculateFee(61));
+        System.out.println(car);
+        System.out.println("Car fee for 61 minutes: Rs " + car.calculateFee(61));
+        System.out.println("Same registration means equal: "
+                + new Car("TN02B2").equals(new Car("TN02B2")));
+        System.out.println("Matching hash codes: "
+                + (new Car("TN02B2").hashCode() == new Car("TN02B2").hashCode()));
+    }
+}
