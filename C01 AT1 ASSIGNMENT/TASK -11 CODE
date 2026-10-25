@@ -1,0 +1,48 @@
+import java.util.Scanner;
+
+public class Task11 {
+    private static final int BIKE_RATE = 10;
+    private static final int CAR_RATE = 30;
+
+    public static int billableHours(int minutes) {
+        return (minutes + 59) / 60;
+    }
+
+    public static int calculateFee(String type, int minutes) {
+        int rate;
+        if (type.equalsIgnoreCase("bike")) rate = BIKE_RATE;
+        else if (type.equalsIgnoreCase("car")) rate = CAR_RATE;
+        else throw new IllegalArgumentException("Unknown vehicle type");
+        if (minutes < 0) throw new IllegalArgumentException("Duration cannot be negative");
+        return billableHours(minutes) * rate;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter registration number: ");
+        String regNo = sc.nextLine().trim();
+
+        System.out.print("Enter vehicle type (bike/car): ");
+        String type = sc.nextLine().trim();
+
+        System.out.print("Enter parking duration in minutes: ");
+        int minutes = sc.nextInt();
+
+        try {
+            int hours = billableHours(minutes);
+            int fee = calculateFee(type, minutes);
+            System.out.println("\\n--- Parking Receipt ---");
+            System.out.println("Ticket number: P1001");
+            System.out.println("Registration number: " + regNo);
+            System.out.println("Vehicle type: " + type);
+            System.out.println("Billable hours: " + hours);
+            System.out.println("Parking fee: Rs " + fee);
+            System.out.println("Total collection: Rs " + fee);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+
+        sc.close();
+    }
+}
