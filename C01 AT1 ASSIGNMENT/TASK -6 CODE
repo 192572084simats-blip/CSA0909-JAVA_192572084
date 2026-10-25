@@ -1,0 +1,50 @@
+class Vehicle {
+    protected String registrationNumber;
+
+    public Vehicle(String registrationNumber) {
+        this.registrationNumber = registrationNumber;
+        System.out.println("1. Vehicle constructor");
+    }
+
+    public void displayRegistration() {
+        System.out.println("Registration number: " + registrationNumber);
+    }
+}
+
+class Car extends Vehicle {
+    protected int numberOfDoors;
+
+    public Car(String registrationNumber, int numberOfDoors) {
+        super(registrationNumber);
+        this.numberOfDoors = numberOfDoors;
+        System.out.println("2. Car constructor");
+    }
+
+    public void displayCarDetails() {
+        displayRegistration();
+        System.out.println("Number of doors: " + numberOfDoors);
+    }
+}
+
+class ElectricCar extends Car {
+    private int batteryCapacity;
+
+    public ElectricCar(String registrationNumber, int doors, int batteryCapacity) {
+        super(registrationNumber, doors);
+        this.batteryCapacity = batteryCapacity;
+        System.out.println("3. ElectricCar constructor");
+    }
+
+    public void displayDetails() {
+        displayCarDetails();
+        System.out.println("Battery capacity: " + batteryCapacity + " kWh");
+    }
+}
+
+public class Task06 {
+    public static void main(String[] args) {
+        ElectricCar ev = new ElectricCar("TN03C3", 4, 60);
+        System.out.println("\\n--- Electric car details ---");
+        ev.displayDetails();
+    }
+}
