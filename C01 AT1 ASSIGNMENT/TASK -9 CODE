@@ -1,0 +1,45 @@
+interface Chargeable {
+    double chargingFee(int units);
+}
+
+abstract class Vehicle {
+    private String registrationNumber;
+
+    public Vehicle(String registrationNumber) {
+        this.registrationNumber = registrationNumber;
+    }
+
+    public String getRegistrationNumber() { return registrationNumber; }
+
+    public abstract double parkingFee(int minutes);
+
+    public void displayRegistration() {
+        System.out.println("Registration number: " + registrationNumber);
+    }
+}
+
+class ElectricCar extends Vehicle implements Chargeable {
+    public ElectricCar(String registrationNumber) { super(registrationNumber); }
+
+    @Override
+    public double parkingFee(int minutes) {
+        int hours = (minutes + 59) / 60;
+        return hours * 30;
+    }
+
+    @Override
+    public double chargingFee(int units) {
+        return units * 12;
+    }
+}
+
+public class Task09 {
+    public static void main(String[] args) {
+        ElectricCar ev = new ElectricCar("TN03C3");
+        ev.displayRegistration();
+        System.out.println("Parking fee for 90 minutes: Rs " + ev.parkingFee(90));
+        System.out.println("Charging fee for 5 units: Rs " + ev.chargingFee(5));
+        System.out.println("Total fee: Rs "
+                + (ev.parkingFee(90) + ev.chargingFee(5)));
+    }
+}
