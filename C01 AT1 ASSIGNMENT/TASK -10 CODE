@@ -1,0 +1,53 @@
+class ParkingSlot {
+    private int floorNumber;
+    private int slotNumber;
+    private boolean occupied;
+
+    public ParkingSlot(int floorNumber, int slotNumber) {
+        setFloorNumber(floorNumber);
+        setSlotNumber(slotNumber);
+        occupied = false;
+    }
+
+    public int getFloorNumber() { return floorNumber; }
+    public int getSlotNumber() { return slotNumber; }
+    public boolean isOccupied() { return occupied; }
+
+    public void setFloorNumber(int floorNumber) {
+        if (floorNumber < 0) throw new IllegalArgumentException("Floor cannot be negative");
+        this.floorNumber = floorNumber;
+    }
+
+    public void setSlotNumber(int slotNumber) {
+        if (slotNumber <= 0) throw new IllegalArgumentException("Slot must be positive");
+        this.slotNumber = slotNumber;
+    }
+
+    public boolean parkVehicle() {
+        if (occupied) return false;
+        occupied = true;
+        return true;
+    }
+
+    public boolean removeVehicle() {
+        if (!occupied) return false;
+        occupied = false;
+        return true;
+    }
+}
+
+public class Task10 {
+    public static void main(String[] args) {
+        ParkingSlot slot = new ParkingSlot(0, 5);
+        System.out.println("Floor: " + slot.getFloorNumber());
+        System.out.println("Slot: " + slot.getSlotNumber());
+        System.out.println("First park operation: " + slot.parkVehicle());
+        System.out.println("Second park operation: " + slot.parkVehicle());
+        System.out.println("Remove vehicle: " + slot.removeVehicle());
+        try {
+            slot.setSlotNumber(-1);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Validation error: " + e.getMessage());
+        }
+    }
+}
